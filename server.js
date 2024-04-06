@@ -1,5 +1,7 @@
-// (A) INITIALIZE
-// (A1) LOAD REQUIRED MODULES
+// resources used on this page:
+// https://github.com/bezkoder/node-js-express-login-example?tab=readme-ov-file
+// https://code-boxx.com/nodejs-user-login-jwt/
+require('dotenv').config();
 const express = require("express");
 const cors = require("cors");
 const cookieSession = require("cookie-session");
@@ -23,40 +25,19 @@ app.use(
 
 // simple route
 app.get("/", (req, res) => {
-    res.json({ message: "Welcome to bezkoder application." });
+    res.json({ message: "Welcome to YouCode2024 application." });
 });
 
 // routes
 require("./app/routes/auth.routes")(app);
 require("./app/routes/user.routes")(app);
 
-const PORT = process.env.PORT || 8080;
+const port = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}.`);
 });
 
-// ???
-function initial() {
-    Role.create({
-        id: 1,
-        name: "user",
-    });
-
-    Role.create({
-        id: 2,
-        name: "moderator",
-    });
-
-    Role.create({
-        id: 3,
-        name: "admin",
-    });
-}
-
 app.post("/out", (req, res) => {
-    res.clearCookie("JWT");
     res.status(200);
     res.send("OK");
 });
-
-app.listen(80);
