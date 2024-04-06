@@ -40,15 +40,15 @@ app.post("/out", (req, res) => {
 });
 
 // axios is what allows us to communicate with OpenAI
-axios.get('https://api.example.com/data').then(response => { console.log(response.data); }).catch(error => {
-    console.error('Error fetching data:', error);
-});
+// axios.get('https://api.example.com/data').then(response => { console.log(response.data); }).catch(error => {
+//     console.error('Error fetching data:', error);
+// });
 
-
-router.post('/ask-openai', async (req, res) => {
+app.post('/try-on', async (req, res) => {
     const userQuery = req.body.query; // Assuming you send the data from frontend in a property named 'query' !!!
 
     try {
+        // or use https://api.openai.com/v1/engines/gpt-3.5-turbo-16k-0613/completions
         const response = await axios.post('https://api.openai.com/v1/engines/davinci/completions', {
             prompt: userQuery,
             max_tokens: 150,
@@ -60,6 +60,8 @@ router.post('/ask-openai', async (req, res) => {
         });
 
         res.json(response.data);
+        console.log("called https://api.openai.com/v1/engines/davinci/completions: ");
+        console.log("got: "+ JSON.stringify(res.json(response.data)));
     } catch (error) {
         console.error('Error calling OpenAI API:', error);
         res.status(500).send('Failed to get response from OpenAI API');
