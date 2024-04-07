@@ -19,7 +19,7 @@
     align-items: center;
     background-size: cover; 
     background-position: center;
-    color: red; 
+    color: white; 
     text-shadow: 0 0 8px rgba(0,0,0,0.5); 
     background-image: url("../../public/banner.png");
 }
