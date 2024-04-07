@@ -4,12 +4,21 @@ import placeholder from '../../public/backgroundImage.png';
 import Star from '../../public/star.svg';
 
 export default function Product({ product }) {
+    const validateImageSrc = (src) => {
+        if (!src) return '/backgroundImage.png'; // Fallback if src is falsy
+        if (src.startsWith('/') || src.startsWith('http://') || src.startsWith('https://')) {
+            return src; // Src is valid
+        }
+        return '/backgroundImage.png'; // Fallback for invalid src
+    };
+
+    const imageUrl = validateImageSrc(product.mainImage);
 
     // swap placeholder with product.mainImage when there is time
     return (
         <div>
             <div className="px-9 pt-9 pb-4">
-                <Image src={placeholder} width="245px" height="327px" alt="Product Image" />
+                <Image src={imageUrl} width="245" height="327" alt="Product Image" />
                 <div>
                     <div className="space-y-2 mt-6">
                         <p className="uppercase font-bold">{product.analytics_name}</p>

@@ -12,14 +12,9 @@ export default function CuratedEvents() {
   };
 
   return (
-    <div className="w-full pt-11">
+    <div className="w-full pt-10">
       <div className="flex justify-between items-center">
-        <h2>Curated events</h2>
-        <button onClick={toggleCollapse}>
-          {isCollapsed ? 'Show More' : 'Show Less'}
-        </button>
       </div>
-      <hr />
       {/* Render this div only if isCollapsed is false */}
       {!isCollapsed && (
         <div className="grid grid-cols-3 gap-9 w-max m-auto space-y-3.5">
