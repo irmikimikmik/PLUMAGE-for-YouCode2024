@@ -52,3 +52,21 @@ app.get('/products', (req, res) => {
         res.send(JSON.parse(data));
     });
 });
+
+const arcteryxColors = [
+    "Green", "Tatsu", "Blue", "Black", "Light Vitality", "Orange", "Grey",
+    "Edziza", "Void", "Stone Wash", "Chloris", "Solitude II", "Graphite",
+    "Solitude", "Forage", "Black Sapphire", "Lampyre", "Pytheas", "Smoke Bluff",
+    "Natural", "Daybreak", "Vitality", "Canvas", "Iola", "Purple", "Euphoria",
+    "Red", "Heritage", "Blue Tetra", "Dark Stone Wash", "Dark Magic", "Bordeaux",
+    "Boxcar", "Yukon", "Yellow", "Brown", "Arabica", "Sand Flax", "Black Heather",
+    "Cloud Heather"
+];
+
+app.get('/colorRecommendation', (req, res) => {
+    let randomColors = [];
+    for (let i = 0; i < 3; i++) {
+      randomColors.push(arcteryxColors[Math.floor(Math.random() * arcteryxColors.length)]);
+    }
+    res.json(randomColors);
+  });
