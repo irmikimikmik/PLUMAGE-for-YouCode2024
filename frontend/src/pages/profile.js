@@ -80,7 +80,7 @@ export default function Profile() {
                 <li className="details-item">Name: {userData[0].username}</li>
                 <li className="details-item">Email: {userData[0].email}</li>
                 <li className="details-item">Location: Vancouver, Canada</li>
-                <li className="details-item">Interests: Hiking, Rock climbing, Ice Skating</li>
+                <li className="details-item">Interests: Hiking, Rock climbing</li>
               </ul>
               <h2 className="column-header">My Style</h2>
               <div className="style-box"> { GPTcolorsString } </div>
