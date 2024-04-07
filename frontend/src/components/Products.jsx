@@ -8,7 +8,7 @@ export default function Products() {
     useEffect(() => {
         async function fetchProductData() {
             try {
-                const response = await fetch('http://localhost:3001/productRecommendationsBasedOnColor');
+                const response = await fetch('http://localhost:3001/productArray');
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
