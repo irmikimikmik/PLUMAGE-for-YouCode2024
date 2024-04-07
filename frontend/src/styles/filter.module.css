@@ -1,0 +1,6 @@
+.filter {
+    border-bottom: 1px solid var(--LIGHT-GREY, #C0C0C0);
+    display: inline-flex;
+    padding: 0px 4px 6px 0px;
+    align-items: center;
+}

@@ -1,9 +1,9 @@
-import styles from "@/styles/welcomebanner.module.css";
+import styles from "@/styles/banner.module.css";
 import "../app/globals.css";
 
 export default function WelcomeBanner() {
   return (
-    <div className={styles.banner}>
+    <div id={styles.welcome} className={styles.banner}>
     </div>
   );
 }

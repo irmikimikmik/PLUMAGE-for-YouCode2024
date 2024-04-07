@@ -35,10 +35,6 @@ app.post("/out", (req, res) => {
     res.send("OK");
 });
 
-// TODO OpenAI communicaiton should go here
-// TODO Send a post request to https://api.openai.com/v1/chat/completions
-// Make sure you have Content-Type = application/json as the header
-
 app.get('/openAIEndpoint', async (req, res) => {
 
     const imageUrlAdaLovelace = "https://upload.wikimedia.org/wikipedia/commons/f/f5/Ada_lovelace_20k_54i.png";
@@ -84,9 +80,32 @@ app.get('/openAIEndpoint', async (req, res) => {
     }
 });
 
+let productArray = [];
 
 // Endpoint to serve the products data
-app.get('/products', (req, res) => {
+app.get('/productArray', (req, res) => {
+    // Set the path to the JSON file
+    const filePath = path.join(__dirname, 'productData.json');
+
+    // Read the JSON file and parse it
+    fs.readFile(filePath, 'utf8', (err, data) => {
+        if (err) {
+            console.error(err);
+            return res.status(500).send('Error reading product data');
+        }
+
+        const productsData = JSON.parse(data);
+        const docsArray = productsData.response.docs;
+        docsArray.forEach(product => {
+            productArray.push(product);
+        });
+        // Send the JSON data as response
+        res.send(docsArray);
+    });
+});
+
+// Endpoint to serve the products data
+app.get('/productData', (req, res) => {
     // Set the path to the JSON file
     const filePath = path.join(__dirname, 'productData.json');
 
@@ -132,7 +151,7 @@ let productRecommendations = [];
 app.get('/productRecommendationsBasedOnColor', async (req, res) => {
     try {
         // Fetch the product data from the products endpoint
-        const productResponse = await fetch('http://localhost:3001/products');
+        const productResponse = await fetch('http://localhost:3001/productData');
         const productData = await productResponse.json();
 
         if (!productData.response || !productData.response.docs) {
