@@ -1,4 +1,4 @@
-import styles from "@/styles/banner.module.css";
+import styles from "../styles/banner.module.css";
 import "../app/globals.css";
 
 export default function WelcomeBanner() {
