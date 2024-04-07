@@ -85,7 +85,7 @@ button {
   font-family: "PT Sans", sans-serif;
   font-size: 16.5px;
   color: #fff;
-  display: flex;
+  display: inline-flex;
   padding: 12px 22px;
   justify-content: center;
   align-items: center;
