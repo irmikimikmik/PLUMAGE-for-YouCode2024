@@ -1,11 +1,14 @@
 import Product from "@/components/Product";
 import React, { useEffect, useState } from 'react';
 import Filter from "@/components/ProductFilter";
+import styles from "@/styles/products.css";
 
 export default function Products() {
     const [products, setProducts] = useState([]);
     const [GptSelectedColors, setSelectedColors] = useState([]);
     const [useSelectedColorsFilter, setUseSelectedColorsFilter] = useState(false); // Step 1: Toggle state
+    const [showPopup, setShowPopup] = useState(false);
+    const [selectedProduct, setSelectedProduct] = useState(null);
     const arcteryxColorOptions = [
         "Green", "Tatsu", "Blue", "Black", "Light Vitality", "Orange", "Grey", "Edziza", "Void",
         "Stone Wash", "Chloris", "Solitude II", "Graphite", "Solitude", "Forage", "Black Sapphire",
@@ -50,6 +53,11 @@ export default function Products() {
         fetchChatPT4VisionOutput();
     }, []);
 
+    const togglePopup = (product) => {
+        setSelectedProduct(product);
+        setShowPopup(!showPopup);
+    };
+
     return (
         <div className="w-full pt-11">
             <h2>Recommended For You</h2>
@@ -57,9 +65,21 @@ export default function Products() {
             <hr />
             <div className="grid grid-cols-3 gap-0 m-auto">
                 {products.map((product) => (
-                    <Product key={product.analytics_name} product={product} />
+                    <div key={product.analytics_name} onClick={() => togglePopup(product)}>
+                        <Product product={product} />
+                    </div>
                 ))}
             </div>
+            {showPopup && selectedProduct && (
+                <div className="popup">
+                    <div className="popup_inner">
+                        <h1>{selectedProduct.name}</h1>
+                        <iframe src="https://rte-web-viewer.substance3d.com/model/https%3A%2F%2Fcdn.substance3d.com%2Fv2%2Ffiles%2Fshare%2F08ad1941-d289-4f7f-a7de-c2ced88ff4a2%3Fencrypted%3Dtrue" width="100%" height="500" frameborder="0" allow="fullscreen"></iframe>
+
+                        <button onClick={() => setShowPopup(false)}>Close</button>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }
