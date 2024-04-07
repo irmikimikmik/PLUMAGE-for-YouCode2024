@@ -2,6 +2,8 @@ const express = require('express');
 const port = process.env.PORT || 3001;
 const cors = require('cors');
 require('dotenv').config();
+const fs = require('fs');
+const path = require('path');
 
 const app = express();
 app.use(cors());
@@ -33,4 +35,20 @@ app.post('/api/data', (req, res) => {
 app.post("/out", (req, res) => {
     res.status(200);
     res.send("OK");
+});
+
+// Endpoint to serve the products data
+app.get('/products', (req, res) => {
+    // Set the path to the JSON file
+    const filePath = path.join(__dirname, 'productData.json');
+
+    // Read the JSON file and parse it
+    fs.readFile(filePath, 'utf8', (err, data) => {
+        if (err) {
+            console.error(err);
+            return res.status(500).send('Error reading product data');
+        }
+        // Send the JSON data as response
+        res.send(JSON.parse(data));
+    });
 });
