@@ -14,7 +14,11 @@ const loader = new GLTFLoader();
 loader.load('assets/jin.gltf', (gltf) => {
     person = gltf.scene;
     const texture = new THREE.TextureLoader().load('assets/jin_BaseColor.png')
-    
+    // If texture is used for color information (.map, .emissiveMap, .specularMap, ...), set color space
+    texture.colorSpace = THREE.SRGBColorSpace;
+
+    // UVs use the convention that (0, 0) corresponds to the upper left corner of a texture.
+    texture.flipY = false;
     person.traverse((child) => {
         if (child.isMesh) {
             //child.material.map = texture;
@@ -43,7 +47,7 @@ function animate() {
 	requestAnimationFrame( animate );
 
 	//person.rotation.x += 0.01;
-	//person.rotation.y += 0.01;
+	person.rotation.y += 0.01;
     //clothes.rotation.y += 0.01;
 	renderer.render( scene, camera );
 }
