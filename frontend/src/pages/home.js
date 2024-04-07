@@ -1,8 +1,8 @@
 import "../app/globals.css";
-import AppNavBar from "@/components/AppNavBar";
-import WelcomeBanner from "@/components/WelcomeBanner";
-import CuratedEvents from "@/components/CuratedEvents";
-import Products from "@/components/Products";
+import AppNavBar from "../components/AppNavBar";
+import WelcomeBanner from "../components/WelcomeBanner";
+import CuratedEvents from "../components/CuratedEvents";
+import Products from "../components/Products";
 import { useState } from "react";
 import closeDropdown from "../../public/closeDropdown.svg";
 import Image from "next/image";
