@@ -1,4 +1,4 @@
-import companyLogo from "../../public/logo-small.png";
+import companyLogo from "../../public/arcteryx.svg";
 import Image from "next/image";
 
 export default function NavBar() {
