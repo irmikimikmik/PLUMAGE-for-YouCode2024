@@ -1,7 +1,7 @@
 export default function Filter() {
-    return (
-        <div>
-            
-        </div>
-    )
+  return (
+    <div>
+        
+    </div>
+  );
 }
