@@ -1,4 +1,5 @@
-import NavBar from "@/components/NavBar";
+
+import NavBar from "../components/NavBar";
 import plumageLogo from "../../public/plumage.svg";
 import Link from 'next/link';
 import Image from "next/image";
