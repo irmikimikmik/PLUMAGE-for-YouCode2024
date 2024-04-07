@@ -14,7 +14,6 @@ export default function Product({ product }) {
 
     const imageUrl = validateImageSrc(product.mainImage);
 
-    // swap placeholder with product.mainImage when there is time
     return (
         <div>
             <div className="px-9 pt-9 pb-4">
