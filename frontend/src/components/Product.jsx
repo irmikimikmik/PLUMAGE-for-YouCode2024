@@ -1,23 +1,19 @@
-import React, { useEffect, useState } from "react";
-import Image from "next/image";
-import Star from "../../public/star.svg";
+import React, { useEffect, useState } from 'react';
+import Image from 'next/image';
+import placeholder from '../../public/defaultImage.avif';
+import Star from '../../public/star.svg';
 
 export default function Product({ product }) {
-  const validateImageSrc = (src) => {
-    if (!src) return "./IMAGE.png"; // Fallback if src is falsy
-    if (
-      src.startsWith("/") ||
-      src.startsWith("http://") ||
-      src.startsWith("https://")
-    ) {
-      return src; // Src is valid
-    }
-    return "/IMAGE.png"; // Fallback for invalid src
-  };
+    const validateImageSrc = (src) => {
+        if (!src) return '/defaultImage.avif'; // Fallback if src is falsy
+        if (src.startsWith('/') || src.startsWith('http://') || src.startsWith('https://')) {
+            return src; // Src is valid
+        }
+        return '/defaultImage.avif'; // Fallback for invalid src
+    };
 
   const imageUrl = validateImageSrc(product.mainImage);
 
-  // swap placeholder with product.mainImage when there is time
   return (
     <div>
       <div className="px-9 pt-9 pb-4 items-center">

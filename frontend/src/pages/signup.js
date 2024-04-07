@@ -26,6 +26,9 @@ export default function Signup() {
       if (response.ok) {
         // If the API call was successful, redirect to the login page
         router.push("/login");
+=======
+        // If the API call was successful, redirect to the survey page
+        router.push('/survey');
       } else {
         const errorData = await response.json();
         throw new Error(errorData.message);

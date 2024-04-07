@@ -26,12 +26,3 @@ export default function Survey() {
     </Layout>
   );
 }
-
-{/* <section className="flex gap-10">
-                <button onClick={goToPreviousStep} className="">
-                  Previous step
-                </button>
-                <button onClick={goToNextStep} className="">
-                  Next step
-                </button>
-              </section> */}
