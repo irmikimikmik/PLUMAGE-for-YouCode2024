@@ -17,6 +17,9 @@ app.use(cors(corsOptions));
 
 app.use(cors());
 app.use(express.json());
+app.use(cors({
+    origin: 'http://localhost:3000' // Replace with your frontend's origin
+}));
 
 app.get('/', (req, res) => {
     res.send('Hello World!');
