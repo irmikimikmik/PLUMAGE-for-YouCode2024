@@ -1,0 +1,75 @@
+/* Using your custom font in the form */
+.form-title {
+  font-family: "elan_itc_stdmedium", serif;
+  text-align: center;
+  width: 100%;
+}
+
+/* Layout for the form container */
+.form-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 1200px;
+  margin: auto;
+}
+
+/* Grid layout for the two boxes */
+.auth-grid {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  height: 100vh; /* Assuming full height */
+}
+
+/* Styles for the left box which will contain an image */
+.left-box {
+  flex-basis: 50%;
+  background-image: url("../../public/signup.png");
+  background-size: cover;
+  background-position: center;
+}
+
+/* Styles for the right box containing the form */
+.right-box {
+  flex-basis: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 1rem;
+  align-items: center;
+}
+
+/* Input field styles */
+.input-field {
+  font-family: 'PT Sans', sans-serif;
+  width: 100%;
+}
+
+.submit-button {
+    background-color: black;
+    color: white;
+    padding: 12px 22px;
+    display: block; 
+    margin: 20px auto; 
+  }
+
+  .login-link {
+    text-align: center; /* Center aligns the text */
+    margin-top: 1rem;
+  }
+  
+  .login-link span {
+    font-family: 'PT Sans', sans-serif;
+    font-size: 16.5px;
+    display: block; /* Makes the text take up the full line */
+  }
+  
+  .login-link button {
+    background-color: transparent;
+    color: black;
+    padding: 12px 22px;
+    display: block; /* Makes the button take up the full line */
+    margin: 10px auto; /* Centers the button and adds space above */
+  }
