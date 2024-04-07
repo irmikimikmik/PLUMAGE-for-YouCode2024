@@ -1,11 +1,17 @@
 import Product from "../components/Product";
 import React, { useEffect, useState } from 'react';
-import Filter from "../components/ProductFilter";
+import Filter from "@/components/ProductFilter"
+import Image from "next/image";
+import stores_list from "../../public/stores.png";
+import styles from "@/styles/products.css"
 
 export default function Products() {
     const [products, setProducts] = useState([]);
     const [GptSelectedColors, setSelectedColors] = useState([]);
     const [useSelectedColorsFilter, setUseSelectedColorsFilter] = useState(false); // Step 1: Toggle state
+    const [showPopup, setShowPopup] = useState(false);
+    const [selectedProduct, setSelectedProduct] = useState(null);
+    const [showIframe, setShowIframe] = useState(true);
     const arcteryxColorOptions = [
         "Green", "Tatsu", "Blue", "Black", "Light Vitality", "Orange", "Grey", "Edziza", "Void",
         "Stone Wash", "Chloris", "Solitude II", "Graphite", "Solitude", "Forage", "Black Sapphire",
@@ -50,6 +56,15 @@ export default function Products() {
         // fetchChatPT4VisionOutput();
     }, []);
 
+    const togglePopup = (product) => {
+        setSelectedProduct(product);
+        setShowPopup(!showPopup);
+    };
+
+    const toggleContent = () => {
+        setShowIframe(!showIframe);
+    };
+    
     return (
         <div className="w-full pt-11">
             <h2>Recommended For You</h2>
@@ -57,9 +72,48 @@ export default function Products() {
             <hr />
             <div className="grid grid-cols-3 gap-0 m-auto">
                 {products.map((product) => (
-                    <Product key={product.analytics_name} product={product} />
+                    <div key={product.analytics_name} onClick={() => togglePopup(product)}>
+                        <Product product={product} />
+                    </div>
                 ))}
             </div>
+            {showPopup && selectedProduct && (
+                <div className="popup">
+                    <div className="popup_inner">
+                        <h2>{selectedProduct.analytics_name}</h2>
+                        <div className="content-wrapper">
+                            <div className="left-content">
+                                {showIframe ? (
+                                    <iframe
+                                        title="Arcteryx Sweater Model"
+                                        src="https://sketchfab.com/models/20fea073ecaf43b0ae77015511781be4/embed"
+                                        width="100%"
+                                        height="500"
+                                        frameBorder="0"
+                                        allowFullScreen
+                                        mozallowfullscreen="true"
+                                        webkitallowfullscreen="true"
+                                        allow="autoplay; fullscreen; xr-spatial-tracking"
+                                        execution-while-out-of-viewport
+                                        execution-while-not-rendered
+                                        web-share
+                                    ></iframe>
+                                ) : (
+                                    <img width="100%" src={selectedProduct.mainImage} alt="Product Image" />
+                                )}
+                            </div>
+                            <div className="right-content">
+                                <Image src={stores_list} alt="Company Logo" id="stores_list" />
+                            </div>
+                        </div>
+                        <button onClick={toggleContent} id="toggleContent-btn">
+                            {showIframe ? 'Show 2D' : 'Show 3D'}
+                        </button>
+                        <p id="product-link"><a href=""><u>Product link</u></a></p>
+                        <button onClick={() => setShowPopup(false)} id="close-btn">Close</button>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }
