@@ -1,4 +1,4 @@
-import Product from "@/components/Product";
+import Product from "../components/Product";
 import React, { useEffect, useState } from 'react';
 import Filter from "@/components/ProductFilter"
 import Image from "next/image";
@@ -29,7 +29,7 @@ export default function Products() {
     useEffect(() => {
         async function fetchProductData() {
             try {
-                const response = await fetch('http://localhost:3001/productArray');
+                const response = await fetch('http://localhost:3001/productGptFilteredArray');
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
@@ -53,7 +53,7 @@ export default function Products() {
         }
 
         fetchProductData();
-        fetchChatPT4VisionOutput();
+        // fetchChatPT4VisionOutput();
     }, []);
 
     const togglePopup = (product) => {

@@ -1,3 +1,5 @@
+import styles from "../styles/banner.module.css";
+import "../app/globals.css";
 import React, { useEffect, useState } from 'react';
 const userData = require('../../public/mocks/userProfiles.json');
 
