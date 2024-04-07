@@ -6,8 +6,6 @@ import Event3 from "../../public/event3.png";
 export default function Events() {
   return (
     <div className="h-96 w-full pt-11 space-y-3.5">
-      <h2>Curated events</h2>
-      <hr></hr>
       <div className="grid grid-cols-3 gap-9 w-max m-auto">
         <div className="">
           <Image width="244px" height="244px" src={Event1} />
