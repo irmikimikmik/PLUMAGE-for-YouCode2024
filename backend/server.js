@@ -39,7 +39,7 @@ app.get('/openAIEndpoint', async (req, res) => {
 
     const imageUrlAdaLovelace = "https://upload.wikimedia.org/wikipedia/commons/f/f5/Ada_lovelace_20k_54i.png";
     const arcteryxColorsString = "Green, Tatsu, Blue, Black, Light Vitality, Orange, Grey, Edziza, Void, Stone Wash, Chloris, Solitude II, Graphite, Solitude, Forage, Black Sapphire, Lampyre, Pytheas, Smoke Bluff, Natural, Daybreak, Vitality, Canvas, Iola, Purple, Euphoria, Red, Heritage, Blue Tetra, Dark Stone Wash, Dark Magic, Bordeaux, Boxcar, Yukon, Yellow, Brown, Arabica, Sand Flax, Black Heather, Cloud Heather."
-    const gpt4VisionPrompt = "Among the following colors, which ones match the complexion, skin tone, contrast, eyebrow color, hair color etc. of the person in the picture the most? Please disregard the details about the background or the clothing items. Please list 3 colors, and make sure that they are different. After you list the three colours, start a new paragraph. In the new paragraph, explain why those three colors were picked in a very succinct way. The colors to pick from are: " + arcteryxColorsString;
+    const gpt4VisionPrompt = "Among the following colors, which ones match the complexion, skin tone, contrast, eyebrow color, hair color etc. of the person in the picture the most? Please disregard details about the background or clothing items. Return a JSON formatted response to me in which there is a 'colors' field consisting of the three colours, and there is a 'reasoning' field consisting an explanation of why those three colors were picked in a very succinct way. Make sure that the colours are different. The colors to pick from are: " + arcteryxColorsString;
 
     const requestBody = {
         "model": "gpt-4-vision-preview",
@@ -71,8 +71,10 @@ app.get('/openAIEndpoint', async (req, res) => {
     try {
         const response = await axios.post(GPT4VisionUrl, requestBody, { headers });
         const responseObject = response.data;
-        const GPTResponse = JSON.stringify(responseObject.choices[0].message.content);
-        res.send(GPTResponse);
+        const jsonString = responseObject.choices[0].message.content;
+        let cleanedString = jsonString.replace(/```json\n|\n```/g, '').trim();
+        let GPTResponse = JSON.parse(cleanedString);
+        res.json(GPTResponse);
     } catch (error) {
         // Handle any errors that occur during the API request
         console.error('Error calling OpenAI API:', error.response ? error.response.data : error.message);
@@ -81,6 +83,51 @@ app.get('/openAIEndpoint', async (req, res) => {
 });
 
 let productArray = [];
+
+function removeDuplicates(array) {
+    const uniqueArray = [...new Set(array)];
+    return uniqueArray;
+}
+
+function analyseColors(imageMapCa) {
+    // Initialize an empty array to hold the extracted colors
+    let colors = [];
+
+    // Check if the product has the 'colour_images_map_ca' field
+    if (imageMapCa && Array.isArray(imageMapCa)) {
+        // Iterate over each item in the 'colour_images_map_ca' array
+        imageMapCa.forEach(colorString => {
+            // Split the string by ":::" to get the individual parts
+            const parts = colorString.split(":::");
+
+            // Check if the parts array has at least 3 elements (to avoid out-of-bound errors)
+            if (parts.length >= 3) {
+                // Extract the first and third elements (color and detail) and add them to the colors array
+                // The second element (e.g., "Stone Wash") is ignored based on your requirement
+                const color1 = parts[0]; // Main Color 1
+                const color2 = parts[1]; // Main Color 2
+                if (color1.includes('/')) {
+                    const splitColors1 = color1.split('/');
+                    colors.push(...splitColors1);
+                    console.log("splitColors1[0]: " + splitColors1[0]);
+                    console.log("splitColors1[1]: " + splitColors1[1]);
+                } else {
+                    colors.push(color1);
+                }
+                if (color2.includes('/')) {
+                    const splitColors2 = color2.split('/');
+                    console.log("splitColors2[0]: " + splitColors2[0]);
+                    console.log("splitColors2[1]: " + splitColors2[1]);
+                    colors.push(...splitColors2);
+                } else {
+                    colors.push(color2);
+                }
+            }
+        });
+    }
+    let uniqueColors = removeDuplicates(colors);
+    return uniqueColors;
+}
 
 // Endpoint to serve the products data
 app.get('/productArray', (req, res) => {
@@ -97,6 +144,8 @@ app.get('/productArray', (req, res) => {
         const productsData = JSON.parse(data);
         const docsArray = productsData.response.docs;
         docsArray.forEach(product => {
+            const colors = analyseColors(product.colour_images_map_ca);
+            product.colors = colors;
             productArray.push(product);
         });
         // Send the JSON data as response
