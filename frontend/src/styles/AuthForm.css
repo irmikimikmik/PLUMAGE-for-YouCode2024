@@ -11,7 +11,7 @@
   flex-direction: column;
   align-items: center;
   width: 100%;
-  max-width: 1200px;
+  max-width: 2000px;
   margin: auto;
 }
 
@@ -23,28 +23,39 @@
   height: 100vh; /* Assuming full height */
 }
 
-/* Styles for the left box which will contain an image */
-.left-box {
+.signup-image {
+  margin-top: 2rem;
+  margin-left: 4rem;
   flex-basis: 50%;
   background-image: url("../../public/signup.png");
   background-size: cover;
   background-position: center;
 }
 
+.login-image {
+  margin-top: 2rem;
+  margin-left: 4rem;
+  flex-basis: 50%;
+  background-image: url("../../public/login.png");
+  background-size: cover;
+  background-position: center;
+}
+
 /* Styles for the right box containing the form */
 .right-box {
-  flex-basis: 50%;
+  flex-basis: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 1rem;
   align-items: center;
+  width: 100%;
 }
 
 /* Input field styles */
 .input-field {
   font-family: 'PT Sans', sans-serif;
   width: 100%;
+  margin: 0 auto;
 }
 
 .submit-button {
@@ -56,20 +67,20 @@
   }
 
   .login-link {
-    text-align: center; /* Center aligns the text */
+    text-align: center;
     margin-top: 1rem;
   }
   
   .login-link span {
     font-family: 'PT Sans', sans-serif;
     font-size: 16.5px;
-    display: block; /* Makes the text take up the full line */
+    display: block;
   }
   
   .login-link button {
     background-color: transparent;
     color: black;
     padding: 12px 22px;
-    display: block; /* Makes the button take up the full line */
-    margin: 10px auto; /* Centers the button and adds space above */
+    display: block;
+    margin: 10px auto;
   }

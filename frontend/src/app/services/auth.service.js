@@ -16,15 +16,11 @@ const register = (username, email, password) => {
   });
 };
 
-const login = (username, password) => {
+const login = (email, password) => {
   return axios.post(API_URL, {
-    username,
+    email,
     password,
   }).then((response) => {
-    if (response.data.username) {
-      localStorage.setItem("user", JSON.stringify(response.data));
-    }
-
     return response.data;
   });
 };
@@ -35,6 +31,7 @@ const logout = () => {
 };
 
 const getCurrentUser = () => {
+  console.log("localStorage: " + JSON.stringify(localStorage));
   return JSON.parse(localStorage.getItem("user"));
 };
 

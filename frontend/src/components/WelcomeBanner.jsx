@@ -1,9 +1,14 @@
 import styles from "../styles/banner.module.css";
 import "../app/globals.css";
+import React, { useEffect, useState } from 'react';
+const userData = require('../../public/mocks/userProfiles.json');
 
 export default function WelcomeBanner() {
+  const username = userData && userData.length > 0 ? userData[0].username : 'Guest';
+
   return (
-    <div id={styles.welcome} className={styles.banner}>
+    <div className="banner">
+      <h1>Welcome, {username}</h1>
     </div>
   );
 }
