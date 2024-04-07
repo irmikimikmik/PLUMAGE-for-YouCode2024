@@ -1,44 +1,52 @@
 /* Main container styling, ensuring it's full width */
 .profile-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%; /* Ensure full width */
-    max-width: 1200px; /* Adjust based on your layout needs */
-    margin: auto;
-  }
-  
-  /* Two-column layout with space between, ensuring it's full width */
-  .profile-grid {
-    margin-top: 10em;
-    display: flex;
-    justify-content: space-between;
-    width: 100%; /* Full width to ensure space for columns */
-  }
-  
-  /* Adjusted flex basis and added max-width to prevent wrapping */
-  .left-column, .right-column {
-    flex-basis: 48%;
-    max-width: 48%; /* Prevents the columns from growing larger than 48% */
-  }
-  
-  /* Ensure other styles remain unchanged */
-  .column-header {
-    font-family: "elan_itc_stdmedium", serif;
-    font-size: 20px;
-    margin-bottom: 20px;
-  }
-  .details-list {
-    list-style-type: none;
-    padding: 0;
-  }
-  .details-item {
-    font-family: 'PT Sans', sans-serif;
-    margin: 10px 0;
-  }
-  .style-box, .store-box, .address-box {
-    border: 2px solid black;
-    height: 100px;
-    margin: 10px 0;
-  }
-  
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%; /* Ensure full width */
+  max-width: 1200px; /* Adjust based on your layout needs */
+  margin: auto;
+}
+
+/* Two-column layout with space between, ensuring it's full width */
+.profile-grid {
+  margin-top: 10em;
+  display: flex;
+  justify-content: space-between;
+  width: 100%; /* Full width to ensure space for columns */
+}
+
+/* Adjusted flex basis and added max-width to prevent wrapping */
+.left-column,
+.right-column {
+  flex-basis: 48%;
+  max-width: 48%; /* Prevents the columns from growing larger than 48% */
+}
+
+.left-column
+
+/* Ensure other styles remain unchanged */
+.column-header {
+  font-family: "elan_itc_stdmedium", serif;
+  font-size: 20px;
+  margin-bottom: 20px;
+}
+.details-list {
+  list-style-type: none;
+  padding: 0;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 16px;
+}
+.details-item {
+  font-family: "PT Sans", sans-serif;
+  margin: 10px 0;
+}
+.style-box,
+.store-box,
+.address-box {
+  border: 1px solid black;
+  height: 100px;
+  margin: 10px 0;
+}

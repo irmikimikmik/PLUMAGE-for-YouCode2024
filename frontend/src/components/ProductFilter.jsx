@@ -1,6 +1,6 @@
 export default function Filter({ onSortChange }) {
     return (
-        <div className="flex justify-between items-center mb-4">
+        <div className="px-12 flex justify-between items-center mb-4">
             <div className="flex gap-4 items-center">
                 <select className="ml-2 p-1 border rounded">
                     <option value="all">All Products</option>

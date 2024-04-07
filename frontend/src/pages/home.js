@@ -20,8 +20,8 @@ export default function Home() {
       <AppNavBar />
       <div className="content">
         <WelcomeBanner />
-        <div className="w-full pt-10 space-y-10 justify-center items-center">
-          <div className="space-x-5 flex w-full place-content-center">
+        <div className="w-full pt-32 space-y-10 justify-center items-center">
+          <div className="space-x-5 flex w-full place-content-center pb-5">
             <h2>Events for you</h2>
             <Image onClick={toggle} src={closeDropdown} />
           </div>
