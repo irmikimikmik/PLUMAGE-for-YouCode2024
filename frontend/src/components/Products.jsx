@@ -52,7 +52,7 @@ export default function Products() {
 
     return (
         <div className="w-full pt-11">
-            <h2>Recommended For You</h2>
+            <h2>Products For You</h2>
             <Filter onSortChange={handleSortChange} />
             <hr />
             <div className="grid grid-cols-3 gap-0 m-auto">

@@ -1,19 +1,36 @@
 .banner {
     width: 100%;
-    height: 200px;
+    height: 300px;
     display: flex; 
     justify-content: center;
     align-items: center;
     background-size: cover; 
     background-position: center;
-    color: white; 
+    color: red; 
     text-shadow: 0 0 8px rgba(0,0,0,0.5); 
   }
   
 
-#welcome.banner {
+.welcomeBanner {
+    width: 100%;
+    height: 300px;
+    display: flex; 
+    justify-content: center;
+    align-items: center;
+    background-size: cover; 
+    background-position: center;
+    color: red; 
+    text-shadow: 0 0 8px rgba(0,0,0,0.5); 
     background-image: url("../../public/banner.png");
 }
+
+.textSmallLeft {
+    font-size: 14px; /* Smaller text size */
+    text-align: left; /* Align text to the left */
+    width: 100%; /* Ensure it spans the full width of the banner for proper alignment */
+    margin-top: 10em;
+    padding-left: 20px; /* Add some padding for the left-aligned text */
+  }
 
 #survey.banner {
     background-image: url("../../public/survey-banner.png")
