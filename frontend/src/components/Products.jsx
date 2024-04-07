@@ -14,8 +14,6 @@ export default function Products() {
         "Bordeaux", "Boxcar", "Yukon", "Yellow", "Brown", "Arabica", "Sand Flax", "Black Heather", "Cloud Heather"
     ];
 
-
-
     useEffect(() => {
         async function fetchProductData() {
             try {

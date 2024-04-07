@@ -130,30 +130,6 @@ function analyseColors(imageMapCa) {
 }
 
 // Endpoint to serve the products data
-app.get('/productArray', (req, res) => {
-    // Set the path to the JSON file
-    const filePath = path.join(__dirname, 'productData.json');
-
-    // Read the JSON file and parse it
-    fs.readFile(filePath, 'utf8', (err, data) => {
-        if (err) {
-            console.error(err);
-            return res.status(500).send('Error reading product data');
-        }
-
-        const productsData = JSON.parse(data);
-        const docsArray = productsData.response.docs;
-        docsArray.forEach(product => {
-            const colors = analyseColors(product.colour_images_map_ca);
-            product.colors = colors;
-            productArray.push(product);
-        });
-        // Send the JSON data as response
-        res.send(docsArray);
-    });
-});
-
-// Endpoint to serve the products data
 app.get('/productData', (req, res) => {
     // Set the path to the JSON file
     const filePath = path.join(__dirname, 'productData.json');
@@ -197,7 +173,7 @@ app.get('/latestColorRecommendation', async (req, res) => {
 
 let productRecommendations = [];
 
-app.get('/productRecommendationsBasedOnColor', async (req, res) => {
+app.get('/productArray', async (req, res) => {
     try {
         // Fetch the product data from the products endpoint
         const productResponse = await fetch('http://localhost:3001/productData');
@@ -207,9 +183,11 @@ app.get('/productRecommendationsBasedOnColor', async (req, res) => {
             throw new Error('Invalid product data structure');
         }
 
-        latestRandomColors.forEach(color => {
+        arcteryxColors.forEach(color => {
             // Iterate over each product
             productData.response.docs.forEach(product => {
+                const colors = analyseColors(product.colour_images_map_ca);
+                product.colors = colors;
                 // Check if the color is in the colour_images_map_ca of the product
                 let colorExists = product.colour_images_map_ca.some(colorString => {
                     return colorString.toLowerCase().includes(color.toLowerCase());
