@@ -1,10 +1,23 @@
-import NavBar from "../components/NavBar";
-import { useState } from "react";
-import Stepper from "../components/Stepper";
 import "../app/globals.css";
 import SurveyBanner from "../components/SurveyBanner";
 import Questionnaire from "../components/Questionnaire"
 import Layout from "../components/layout";
+let userData = require('../../public/mocks/userProfiles.json');
+let updatedUserData = {};
+
+export const getUpdatedUserData = () => updatedUserData;
+
+const handleSurveyComplete = (results) => {
+  setSurveyResults(results);
+  console.log(JSON.stringify(results));
+  updatedUserData = {
+    name: userData[0].name,
+    email: userData[0].email,
+    height: results.question1,
+    location: results.question2,
+    interests: results.question3,
+  };
+};
 
 export default function Survey() {
   return (
@@ -17,7 +30,7 @@ export default function Survey() {
             <h2>Personalize your Arc'teryx Experience</h2>
             <div className="flex">
               <br />
-              <Questionnaire />
+              <Questionnaire onSurveyComplete={handleSurveyComplete}/>
             </div>
           </div>
         </div>
@@ -26,12 +39,3 @@ export default function Survey() {
     </Layout>
   );
 }
-
-{/* <section className="flex gap-10">
-                <button onClick={goToPreviousStep} className="">
-                  Previous step
-                </button>
-                <button onClick={goToNextStep} className="">
-                  Next step
-                </button>
-              </section> */}
