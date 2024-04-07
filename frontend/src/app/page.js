@@ -1,4 +1,5 @@
 import NavBar from "@/components/NavBar";
+import Link from 'next/link';
 
 export default function Landing() {
   return (
@@ -11,9 +12,15 @@ export default function Landing() {
             <h1 id="title">PRODUCT TITLE</h1>
             <p id="slogan">Built for the outdoors, tailored to your adventure</p>
             </div>
-            <button>
-              Create account
-            </button>
+
+            <div className="signup-link">
+              <Link href="/signup"><button type="button" className="signup-link-button">CREATE ACCOUNT</button></Link>
+            </div>
+
+            <div className="login-link">
+              <Link href="/login"><button type="button" className="login-link-button">LOGIN</button></Link>
+            </div>
+            
           </div>
         </div>
       </div>

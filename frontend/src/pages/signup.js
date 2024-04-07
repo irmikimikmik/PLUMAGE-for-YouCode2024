@@ -2,29 +2,44 @@ import NavBar from "@/components/NavBar";
 import React, { useState } from 'react';
 import AuthService from '../app/services/auth.service';
 import Link from 'next/link';
-import styles from './AuthForm.css';
+import styles from '../styles/AuthForm.css';
+import { useRouter } from 'next/router';
 
 export default function Signup() {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const router = useRouter();
 
   const handleSignup = async (e) => {
     e.preventDefault();
     try {
-      const user = await AuthService.register(username, email, password);
-      console.log('Signed up user:', user);
-      // You might want to log the user in right away or redirect to the login page
+      const response = await fetch('/api/users', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ username, email, password }),
+      });
+
+      if (response.ok) {
+        // If the API call was successful, redirect to the login page
+        router.push('/login');
+      } else {
+        const errorData = await response.json();
+        throw new Error(errorData.message);
+      }
     } catch (error) {
-      console.error('Signup error:', error.response.data.message);
-      // Handle signup error
+      console.error('Signup error:', error.message);
     }
   };
 
   return (
+    <div className="header">
+      <NavBar />
     <div className="form-container">
       <div className="auth-grid">
-        <div className="left-box">
+        <div className="signup-image">
           {/* Content for the left box */}
         </div>
         <div className="right-box">
@@ -51,5 +66,6 @@ export default function Signup() {
         </div>
       </div>
     </div>
+  </div>
   );
 }

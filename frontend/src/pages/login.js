@@ -1,42 +1,66 @@
 import React, { useState } from 'react';
 import AuthService from '../app/services/auth.service';
+import Link from 'next/link';
+import styles from '../styles/AuthForm.css';
+import NavBar from "@/components/NavBar";
+import { useRouter } from 'next/router';
 
 export default function Login() {
-  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const router = useRouter();
 
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const user = await AuthService.login(username, password);
+      const user = await AuthService.login(email, password);
       console.log('Logged in user:', user);
-      // Store user details and token to local storage or context to keep the user logged in
-      localStorage.setItem('user', JSON.stringify(user));
-      // Redirect user to the profile page or home page after login
+      router.push('/home');
     } catch (error) {
       console.error('Login error:', error.response.data.message);
-      // Handle login error, such as displaying a notification to the user
     }
   };
 
   return (
-    <div>
-      <h1>Login</h1>
-      <form onSubmit={handleLogin}>
-        <input
-          type="text"
-          placeholder="Username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <button type="submit">Login</button>
-      </form>
+    <div className="header">
+      <NavBar />
+    <div className="form-container">
+      <div className="auth-grid">
+        <div className="login-image">
+          {/* Left box with background image for the login page */}
+        </div>
+        <div className="right-box">
+          <form onSubmit={handleLogin} className="flex flex-col items-center">
+            <h2 className="form-title">LOGIN</h2>
+            <div className="input-group">
+              <input
+                className="input-field"
+                type="text"
+                placeholder="Email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
+            </div>
+            <div className="input-group">
+              <input
+                className="input-field"
+                type="password"
+                placeholder="Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+            </div>
+            <button type="submit" className="submit-button">Login</button>
+            <div className="login-link">
+              <span>DON'T HAVE AN ACCOUNT?</span>
+              <Link href="/signup"><button className="login-link-button">SIGN UP</button></Link>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
     </div>
   );
 }
