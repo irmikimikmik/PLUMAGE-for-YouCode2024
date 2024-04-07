@@ -23,7 +23,7 @@ export default function Products() {
     useEffect(() => {
         async function fetchProductData() {
             try {
-                const response = await fetch('http://localhost:3001/productArray');
+                const response = await fetch('http://localhost:3001/productGptFilteredArray');
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
@@ -47,7 +47,7 @@ export default function Products() {
         }
 
         fetchProductData();
-        fetchChatPT4VisionOutput();
+        // fetchChatPT4VisionOutput();
     }, []);
 
     return (

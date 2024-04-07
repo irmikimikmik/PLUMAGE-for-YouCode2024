@@ -35,6 +35,9 @@ app.post("/out", (req, res) => {
     res.send("OK");
 });
 
+let gptColors = [];
+let openAIResponse;
+
 app.get('/openAIEndpoint', async (req, res) => {
 
     const imageUrlAdaLovelace = "https://upload.wikimedia.org/wikipedia/commons/f/f5/Ada_lovelace_20k_54i.png";
@@ -74,6 +77,8 @@ app.get('/openAIEndpoint', async (req, res) => {
         const jsonString = responseObject.choices[0].message.content;
         let cleanedString = jsonString.replace(/```json\n|\n```/g, '').trim();
         let GPTResponse = JSON.parse(cleanedString);
+        gptColors = GPTResponse.colors;
+        openAIResponse = GPTResponse;
         res.json(GPTResponse);
     } catch (error) {
         // Handle any errors that occur during the API request
@@ -81,8 +86,6 @@ app.get('/openAIEndpoint', async (req, res) => {
         res.status(500).send('Internal Server Error');
     }
 });
-
-let productArray = [];
 
 function removeDuplicates(array) {
     const uniqueArray = [...new Set(array)];
@@ -230,4 +233,75 @@ app.get('/productArray', async (req, res) => {
         // If there's an error, send back a 500 server error response
         res.status(500).json({ error: error.message });
     }
+});
+
+app.get('/productGptFilteredArray', async (req, res) => {
+    try {
+        openAIResponse = await fetch('http://localhost:3001/openAIEndpoint');
+        if (!openAIResponse.ok) {
+            throw new Error(`HTTP error! status: ${openAIResponse.status}`);
+        }
+        // Fetch the product data from the products endpoint
+        const productResponse = await fetch('http://localhost:3001/productData');
+        const productData = await productResponse.json();
+
+        if (!productData.response || !productData.response.docs) {
+            throw new Error('Invalid product data structure');
+        }
+
+        gptColors.forEach(color => {
+            // Iterate over each product
+            productData.response.docs.forEach(product => {
+                const colors = analyseColors(product.colour_images_map_ca);
+                product.colors = colors;
+                // Check if the color is in the colour_images_map_ca of the product
+                let colorExists = product.colour_images_map_ca.some(colorString => {
+                    return colorString.toLowerCase().includes(color.toLowerCase());
+                });
+                // If color exists, push the analytics_name into the recommendations
+                if (colorExists) {
+                    product.mainImage = '../../public/backgroundImage.png';
+                    product.colour_images_map_ca.forEach(colorImageLine => {
+                        let splittedData = colorImageLine.split(':::');
+                        for (let i = 0; i < splittedData.length; i++) {
+                            if (splittedData[i] == color) {
+                                product.mainImage = splittedData[3];
+                                console.log("color: " + splittedData[i]);
+                                console.log("url: " + splittedData[i + 3]);
+                                break;
+                            }
+                        }
+                    });
+                    productRecommendations.push(product);
+                }
+            });
+        });
+
+        // Remove duplicates TODO
+        let uniqueProductRecommendations = [];
+
+        productRecommendations.forEach(product => {
+            // Check if there is already a product with the same analytics_name in the uniqueProductRecommendations
+            const isExisting = uniqueProductRecommendations.some(uniqueProduct => uniqueProduct.analytics_name === product.analytics_name);
+
+            // If the product does not exist, add it to the uniqueProductRecommendations
+            if (!isExisting) {
+                uniqueProductRecommendations.push(product);
+            }
+        });
+
+        // Return the unique recommendations
+        res.json(uniqueProductRecommendations);
+    } catch (error) {
+        // If there's an error, send back a 500 server error response
+        res.status(500).json({ error: error.message });
+    }
+});
+
+app.get('/GptFilterColors', async (req, res) => {
+    res.send(gptColors);
+});
+
+app.get('/GptFilterAll', async (req, res) => {
+    res.send(openAIResponse);
 });

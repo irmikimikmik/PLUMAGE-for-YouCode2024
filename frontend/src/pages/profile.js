@@ -20,7 +20,7 @@ function fetchChatPT4VisionOutput() {
             // Handle the successful response data here
             GPTcolors = data.colors;
             GPTreasoning = data.reasoning;
-            const GPTcolorsString = arrayToString(data.colors);
+            GPTcolorsString = arrayToString(data.colors);
             
             console.log("GPTcolors: " + GPTcolors);
             console.log("GPTreasoning: " + GPTreasoning);
