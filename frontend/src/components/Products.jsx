@@ -109,7 +109,7 @@ export default function Products() {
                         <button onClick={toggleContent} id="toggleContent-btn">
                             {showIframe ? 'Show 2D' : 'Show 3D'}
                         </button>
-                        <p id="product-link"><a href=""><u>Product link</u></a></p>
+                        <p id="product-link"><a href="https://arcteryx.com/ca/en/shop/mens/incendo-hybrid-hoody"><u>Product link</u></a></p>
                         <button onClick={() => setShowPopup(false)} id="close-btn">Close</button>
                     </div>
                 </div>
