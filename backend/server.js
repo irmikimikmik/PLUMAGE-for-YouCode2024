@@ -5,6 +5,8 @@ require('dotenv').config();
 const fs = require('fs');
 const fetch = require('node-fetch');
 const path = require('path');
+const axios = require('axios');
+const GPT4VisionUrl = 'https://api.openai.com/v1/chat/completions';
 
 const app = express();
 
@@ -16,6 +18,9 @@ app.use(cors(corsOptions));
 
 app.use(cors());
 app.use(express.json());
+app.use(cors({
+    origin: 'http://localhost:3000' // Replace with your frontend's origin
+}));
 
 app.get('/', (req, res) => {
     res.send('Hello World!');
@@ -25,21 +30,82 @@ app.listen(port, () => {
     console.log(`Server running on port ${port}`);
 });
 
-// !!!/api/data
-app.get('/api/data', (req, res) => {
-    // You would fetch data from database or another service
-    const data = { message: 'This is your data' };
-    res.json(data);
-});
-
-
 app.post("/out", (req, res) => {
     res.status(200);
     res.send("OK");
 });
 
+app.get('/openAIEndpoint', async (req, res) => {
+
+    const imageUrlAdaLovelace = "https://upload.wikimedia.org/wikipedia/commons/f/f5/Ada_lovelace_20k_54i.png";
+    const arcteryxColorsString = "Green, Tatsu, Blue, Black, Light Vitality, Orange, Grey, Edziza, Void, Stone Wash, Chloris, Solitude II, Graphite, Solitude, Forage, Black Sapphire, Lampyre, Pytheas, Smoke Bluff, Natural, Daybreak, Vitality, Canvas, Iola, Purple, Euphoria, Red, Heritage, Blue Tetra, Dark Stone Wash, Dark Magic, Bordeaux, Boxcar, Yukon, Yellow, Brown, Arabica, Sand Flax, Black Heather, Cloud Heather."
+    const gpt4VisionPrompt = "Among the following colors, which ones match the complexion, skin tone, contrast, eyebrow color, hair color etc. of the person in the picture the most? Please disregard the details about the background or the clothing items. Please list 3 colors, and make sure that they are different. After you list the three colours, start a new paragraph. In the new paragraph, explain why those three colors were picked in a very succinct way. The colors to pick from are: " + arcteryxColorsString;
+
+    const requestBody = {
+        "model": "gpt-4-vision-preview",
+        "messages": [
+            {
+                "role": "user",
+                "content": [
+                    {
+                        "type": "text",
+                        "text": gpt4VisionPrompt
+                    },
+                    {
+                        "type": "image_url",
+                        "image_url": {
+                            "url": imageUrlAdaLovelace
+                        }
+                    }
+                ]
+            }
+        ],
+        "temperature": 0.7
+    };
+
+    const headers = {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${process.env.OPENAI_API_KEY}`,
+    };
+
+    try {
+        const response = await axios.post(GPT4VisionUrl, requestBody, { headers });
+        const responseObject = response.data;
+        const GPTResponse = JSON.stringify(responseObject.choices[0].message.content);
+        res.send(GPTResponse);
+    } catch (error) {
+        // Handle any errors that occur during the API request
+        console.error('Error calling OpenAI API:', error.response ? error.response.data : error.message);
+        res.status(500).send('Internal Server Error');
+    }
+});
+
+let productArray = [];
+
 // Endpoint to serve the products data
-app.get('/products', (req, res) => {
+app.get('/productArray', (req, res) => {
+    // Set the path to the JSON file
+    const filePath = path.join(__dirname, 'productData.json');
+
+    // Read the JSON file and parse it
+    fs.readFile(filePath, 'utf8', (err, data) => {
+        if (err) {
+            console.error(err);
+            return res.status(500).send('Error reading product data');
+        }
+
+        const productsData = JSON.parse(data);
+        const docsArray = productsData.response.docs;
+        docsArray.forEach(product => {
+            productArray.push(product);
+        });
+        // Send the JSON data as response
+        res.send(docsArray);
+    });
+});
+
+// Endpoint to serve the products data
+app.get('/productData', (req, res) => {
     // Set the path to the JSON file
     const filePath = path.join(__dirname, 'productData.json');
 
@@ -85,13 +151,12 @@ let productRecommendations = [];
 app.get('/productRecommendationsBasedOnColor', async (req, res) => {
     try {
         // Fetch the product data from the products endpoint
-        const productResponse = await fetch('http://localhost:3001/products');
+        const productResponse = await fetch('http://localhost:3001/productData');
         const productData = await productResponse.json();
 
         if (!productData.response || !productData.response.docs) {
             throw new Error('Invalid product data structure');
         }
-
 
         latestRandomColors.forEach(color => {
             // Iterate over each product
@@ -102,6 +167,18 @@ app.get('/productRecommendationsBasedOnColor', async (req, res) => {
                 });
                 // If color exists, push the analytics_name into the recommendations
                 if (colorExists) {
+                    product.mainImage = '../../public/backgroundImage.png';
+                    product.colour_images_map_ca.forEach(colorImageLine => {
+                        let splittedData = colorImageLine.split(':::');
+                        for (let i = 0; i < splittedData.length; i++) {
+                            if (splittedData[i] == color) {
+                                product.mainImage = splittedData[3];
+                                console.log("color: " + splittedData[i]);
+                                console.log("url: " + splittedData[i + 3]);
+                                break;
+                            }
+                        }
+                    });
                     productRecommendations.push(product);
                 }
             });

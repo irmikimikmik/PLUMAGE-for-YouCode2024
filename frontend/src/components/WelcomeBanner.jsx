@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import styles from "@/styles/welcomebanner.module.css";
+import styles from "@/styles/banner.module.css";
 import AuthService from '../app/services/auth.service';
 
 export default function WelcomeBanner() {
@@ -12,8 +12,7 @@ export default function WelcomeBanner() {
   }, []);
 
   return (
-    <div className={styles.banner}>
-      {/* Overlay text on the image */}
+    <div id="welcome-banner">
       <h1>Welcome, {username}</h1>
     </div>
   );
