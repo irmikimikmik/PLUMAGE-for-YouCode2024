@@ -92,7 +92,6 @@ app.get('/productRecommendationsBasedOnColor', async (req, res) => {
             throw new Error('Invalid product data structure');
         }
 
-
         latestRandomColors.forEach(color => {
             // Iterate over each product
             productData.response.docs.forEach(product => {
@@ -102,6 +101,18 @@ app.get('/productRecommendationsBasedOnColor', async (req, res) => {
                 });
                 // If color exists, push the analytics_name into the recommendations
                 if (colorExists) {
+                    product.mainImage = '../../public/backgroundImage.png';
+                    product.colour_images_map_ca.forEach(colorImageLine => {
+                        let splittedData = colorImageLine.split(':::');
+                        for (let i = 0; i < splittedData.length; i++) {
+                            if (splittedData[i] == color) {
+                                product.mainImage = splittedData[3];
+                                console.log("color: " + splittedData[i]);
+                                console.log("url: " + splittedData[i + 3]);
+                                break;
+                            }
+                        }
+                    });
                     productRecommendations.push(product);
                 }
             });
