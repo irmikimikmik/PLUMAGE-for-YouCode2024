@@ -1,14 +1,9 @@
 import Product from "@/components/Product";
 import React, { useEffect, useState } from 'react';
-<<<<<<< HEAD
-import Filter from "@/components/ProductFilter";
-import styles from "@/styles/products.css";
-=======
 import Filter from "@/components/ProductFilter"
 import Image from "next/image";
 import stores_list from "../../public/stores.png";
 import styles from "@/styles/products.css"
->>>>>>> bb77a53d (Add stores to popup)
 
 export default function Products() {
     const [products, setProducts] = useState([]);
