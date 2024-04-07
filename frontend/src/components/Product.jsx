@@ -5,6 +5,7 @@ import Star from '../../public/star.svg';
 
 export default function Product({ product }) {
 
+    // swap placeholder with product.mainImage when there is time
     return (
         <div>
             <div className="px-9 pt-9 pb-4">
