@@ -5,6 +5,7 @@ require('dotenv').config();
 const fs = require('fs');
 const fetch = require('node-fetch');
 const path = require('path');
+const axios = require('axios');
 
 const app = express();
 
@@ -25,18 +26,22 @@ app.listen(port, () => {
     console.log(`Server running on port ${port}`);
 });
 
-// !!!/api/data
-app.get('/api/data', (req, res) => {
-    // You would fetch data from database or another service
-    const data = { message: 'This is your data' };
-    res.json(data);
-});
-
-
 app.post("/out", (req, res) => {
     res.status(200);
     res.send("OK");
 });
+
+const openAI = axios.create({
+    baseURL: 'https://api.openai.com',
+    headers: {
+        'Authorization': `Bearer ${process.env.OPENAI_API_KEY}`,
+        'Content-Type': 'application/json'
+    }
+});
+
+// TODO OpenAI communicaiton should go here
+// TODO Send a post request to https://api.openai.com/v1/chat/completions
+// Make sure you have Content-Type = application/json as the header
 
 // Endpoint to serve the products data
 app.get('/products', (req, res) => {
