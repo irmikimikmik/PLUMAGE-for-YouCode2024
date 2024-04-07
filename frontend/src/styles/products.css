@@ -37,3 +37,13 @@
     border-radius: 4px;
     cursor: pointer;
 }
+
+.content-wrapper {
+    display: flex;
+    align-items: center;
+}
+
+#stores_list {
+    padding: 20px;
+    float: right;
+}
