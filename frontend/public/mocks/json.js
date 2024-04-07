@@ -23,6 +23,59 @@ export const json = {
         "name": "question4",
         "title": "Are you interested in ReGEAR?",
         "isRequired": true
+       }, 
+       {
+        "type": "checkbox",
+        "name": "Personalise your intended use",
+        "title": "Personalise your intended use",
+        "description": "Share your favorite outdoor adventures: we'll handle the gear.",
+        "isRequired": true,
+        "choices": [
+         {
+          "value": "Item 1",
+          "text": "Hiking & Trekking"
+         },
+         {
+          "value": "Item 2",
+          "text": "Jogging"
+         },
+         {
+          "value": "Item 3",
+          "text": "Camping"
+         },
+         {
+          "value": "Item 4",
+          "text": "Alpine & Rock Climbing"
+         },
+         {
+          "value": "Item 5",
+          "text": "Cycling & Mountain Biking"
+         },
+         {
+          "value": "Item 6",
+          "text": "Travel & Everyday"
+         },
+         {
+          "value": "Item 7",
+          "text": "Ice Climbing"
+         },
+         {
+          "value": "Item 8",
+          "text": "Kayaking & Canoeing"
+         },
+         {
+          "value": "Item 9",
+          "text": "Trail Running"
+         },
+         {
+          "value": "Item 10",
+          "text": "Fishing"
+         },
+         {
+          "value": "Item 11",
+          "text": "Other"
+         }
+        ]
        }
       ]
      },

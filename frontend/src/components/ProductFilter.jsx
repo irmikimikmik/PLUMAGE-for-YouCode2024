@@ -1,6 +1,6 @@
 export default function Filter(onSortChange) {
     return (
-        <div className="flex justify-between items-center mb-4">
+        <div className="px-12 flex justify-between items-center mb-4">
             <div className="flex gap-4 items-center">
                 <span className="ml-8">Product</span>
                 <div className="border-l h-5 border-gray-400"></div> {/* Thin vertical line */}

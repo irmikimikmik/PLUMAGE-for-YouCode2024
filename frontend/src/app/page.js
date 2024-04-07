@@ -6,21 +6,20 @@ import Image from "next/image";
 
 export default function Landing() {
   return (
-    <main className="flex flex-col items-center justify-between h-screen">
+    <main className="flex flex-col items-center h-screen">
+      <div>
       <NavBar />
-      <div id="parent" className="flex flex-col items-center justify-center h-full w-full">
-        <div className="space-y-9">
-          <div className="flex items-center space-x-4">
+      </div>
+      <div id="parent" className="mx-auto flex-grow flex flex-col items-center justify-center w-full m-auto">
+        <div className="space-y-9 w-full items-center justify-center mx-auto">
+          <div className="flex items-center space-x-4 justify-center">
             <Image width="121" height="30" src={plumageLogo} alt="Company Logo" />
-            <h1 id="title">PLUMAGE</h1>
+            <h1 id="title" className="items-center">PLUMAGE</h1>
           </div>
           <p id="slogan">Built for the outdoors, tailored to your adventure</p>
-          <div className="flex space-x-40">
+          <div className="flex space-x-40 items-center pl-1/2 justify-center">
             <Link href="/signup">
               <button type="button" className="signup-link-button">CREATE ACCOUNT</button>
-            </Link>
-            <Link href="/login">
-              <button type="button" className="login-link-button">LOGIN</button>
             </Link>
           </div>
         </div>

@@ -51,11 +51,11 @@ export default function Products() {
     }, []);
 
     return (
-        <div className="w-full pt-11">
+        <div className="w-full pt-11 space-y-5">
             <h2>Recommended For You</h2>
             <Filter onSortChange={handleSortChange} />
             <hr />
-            <div className="grid grid-cols-3 gap-0 m-auto">
+            <div className="w-full grid grid-cols-3 gap-2 place-content-center">
                 {products.map((product) => (
                     <Product key={product.analytics_name} product={product} />
                 ))}
