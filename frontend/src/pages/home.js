@@ -1,4 +1,4 @@
-import NavBar from "@/components/NavBar";
+import AppNavBar from "@/components/AppNavBar";
 import "../app/globals.css";
 import WelcomeBanner from "@/components/WelcomeBanner";
 import CuratedEvents from "@/components/CuratedEvents";
@@ -17,7 +17,7 @@ export default function Home() {
   return (
     <div className="">
       <div className="block">
-        <NavBar />
+        <AppNavBar />
       </div>
       <div className="block">
         <WelcomeBanner />
