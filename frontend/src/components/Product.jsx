@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
-import placeholder from '../../public/backgroundImage.png';
+import placeholder from '../../public/defaultImage.avif';
 import Star from '../../public/star.svg';
 
 export default function Product({ product }) {
     const validateImageSrc = (src) => {
-        if (!src) return '/backgroundImage.png'; // Fallback if src is falsy
+        if (!src) return '/defaultImage.avif'; // Fallback if src is falsy
         if (src.startsWith('/') || src.startsWith('http://') || src.startsWith('https://')) {
             return src; // Src is valid
         }
-        return '/backgroundImage.png'; // Fallback for invalid src
+        return '/defaultImage.avif'; // Fallback for invalid src
     };
 
     const imageUrl = validateImageSrc(product.mainImage);

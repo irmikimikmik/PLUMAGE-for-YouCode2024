@@ -6,7 +6,9 @@ export default function AppNavBar() {
     return (
       <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '128px', backgroundColor: 'white', display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '28px' }}>
         <div style={{ paddingLeft: '24px' }}>
-          <Image width="121" height="30" src={companyLogo} alt="Company Logo" />
+            <Link href="/home">
+            <Image width="121" height="30" src={companyLogo} alt="Company Logo" style={{ cursor: 'pointer' }} />
+          </Link>
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: '16px', paddingRight: '24px' }}>
           <input
