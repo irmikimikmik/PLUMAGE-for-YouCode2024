@@ -7,6 +7,13 @@ const fetch = require('node-fetch');
 const path = require('path');
 
 const app = express();
+
+const corsOptions = {
+    origin: 'http://localhost:3000', // the domain of your frontend
+    optionsSuccessStatus: 200
+};
+app.use(cors(corsOptions));
+
 app.use(cors());
 app.use(express.json());
 
@@ -25,13 +32,6 @@ app.get('/api/data', (req, res) => {
     res.json(data);
 });
 
-// !!!/api/data
-app.post('/api/data', (req, res) => {
-    // You would save data to database or pass it to another service
-    const newData = req.body;
-    console.log(newData);
-    res.status(201).send('Data created');
-});
 
 app.post("/out", (req, res) => {
     res.status(200);
@@ -81,21 +81,19 @@ app.get('/latestColorRecommendation', async (req, res) => {
 });
 
 let productRecommendations = [];
+const extractMainImageUrl = (colorString) => {
+    return colorString.split(':::')[3];
+};
 
 app.get('/productRecommendationsBasedOnColor', async (req, res) => {
     try {
         // Fetch the product data from the products endpoint
-        const colorResponse = await fetch('http://localhost:3001/latestColorRecommendation');
-        const latestColorData = await colorResponse.json();
         const productResponse = await fetch('http://localhost:3001/products');
         const productData = await productResponse.json();
 
         if (!productData.response || !productData.response.docs) {
             throw new Error('Invalid product data structure');
         }
-
-        console.log('latestColorData:', latestColorData);
-
 
         latestRandomColors.forEach(color => {
             // Iterate over each product
@@ -104,13 +102,10 @@ app.get('/productRecommendationsBasedOnColor', async (req, res) => {
                 let colorExists = product.colour_images_map_ca.some(colorString => {
                     return colorString.toLowerCase().includes(color.toLowerCase());
                 });
-
-                // Log for debugging
-                console.log('Checking color:', color, 'for product:', product.analytics_name, 'Exists:', colorExists);
-
                 // If color exists, push the analytics_name into the recommendations
                 if (colorExists) {
-                    productRecommendations.push(product.analytics_name);
+                    product.colour_images_map_ca.push(extractMainImageUrl(product.colour_images_map_ca[0]));
+                    productRecommendations.push(product);
                 }
             });
         });
