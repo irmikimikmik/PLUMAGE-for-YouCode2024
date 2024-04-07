@@ -80,19 +80,37 @@ export default function Products() {
             {showPopup && selectedProduct && (
                 <div className="popup">
                     <div className="popup_inner">
-                        <h1>{selectedProduct.name}</h1>
+                        <h2>{selectedProduct.analytics_name}</h2>
                         <div className="content-wrapper">
-                            {showIframe ? (
-                                <iframe src="https://rte-web-viewer.substance3d.com/model/https%3A%2F%2Fcdn.substance3d.com%2Fv2%2Ffiles%2Fshare%2F08ad1941-d289-4f7f-a7de-c2ced88ff4a2%3Fencrypted%3Dtrue" width="50%" height="500" frameBorder="0" allowFullScreen></iframe>
-                            ) : (
-                                <img src={selectedProduct.imageUrl} alt="Product Image" />
-                            )}
-                            <button onClick={toggleContent}>
-                                {showIframe ? 'Show Static Image' : 'Show 3D'}
-                            </button>
-                            <Image width="10%" src={stores_list} alt="Company Logo" id="stores_list" />
+                            <div className="left-content">
+                                {showIframe ? (
+                                    <iframe
+                                        title="Arcteryx Sweater Model"
+                                        src="https://sketchfab.com/models/20fea073ecaf43b0ae77015511781be4/embed"
+                                        width="100%"
+                                        height="500"
+                                        frameBorder="0"
+                                        allowFullScreen
+                                        mozallowfullscreen="true"
+                                        webkitallowfullscreen="true"
+                                        allow="autoplay; fullscreen; xr-spatial-tracking"
+                                        execution-while-out-of-viewport
+                                        execution-while-not-rendered
+                                        web-share
+                                    ></iframe>
+                                ) : (
+                                    <img width="100%" src={selectedProduct.mainImage} alt="Product Image" />
+                                )}
+                            </div>
+                            <div className="right-content">
+                                <Image src={stores_list} alt="Company Logo" id="stores_list" />
+                            </div>
                         </div>
-                        <button onClick={() => setShowPopup(false)}>Close</button>
+                        <button onClick={toggleContent} id="toggleContent-btn">
+                            {showIframe ? 'Show 2D' : 'Show 3D'}
+                        </button>
+                        <p id="product-link"><a href=""><u>Product link</u></a></p>
+                        <button onClick={() => setShowPopup(false)} id="close-btn">Close</button>
                     </div>
                 </div>
             )}

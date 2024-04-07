@@ -16,9 +16,9 @@
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-    width: 80%;
-    max-width: 600px;
-    max-height: 80%;
+    width: 90%;
+    max-width: 700px;
+    max-height: 90%;
     overflow: auto;
 }
 
@@ -26,12 +26,24 @@
     margin-bottom: 10px;
 }
 
-.popup_inner button {
+#close-btn {
     position: absolute;
     top: 10px;
     right: 10px;
     padding: 8px 16px;
-    background-color: #e91e63;
+    background-color: #41647a;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+#toggleContent-btn {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    padding: 8px 16px;
+    background-color: #41647a;
     color: white;
     border: none;
     border-radius: 4px;
@@ -43,7 +55,26 @@
     align-items: center;
 }
 
+.left-content {
+    width: 50%;
+    margin-right: 10px;
+}
+
+.right-content {
+    flex-grow: 1;
+}
+
 #stores_list {
     padding: 20px;
     float: right;
+    max-width: 300px;
+}
+
+#product-link {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    padding: 8px 16px;
+    border: none;
+    cursor: pointer;
 }
