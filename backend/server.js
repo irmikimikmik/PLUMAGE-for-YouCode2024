@@ -6,6 +6,7 @@ const fs = require('fs');
 const fetch = require('node-fetch');
 const path = require('path');
 const axios = require('axios');
+const GPT4VisionUrl = 'https://api.openai.com/v1/chat/completions';
 
 const app = express();
 
@@ -34,17 +35,55 @@ app.post("/out", (req, res) => {
     res.send("OK");
 });
 
-const openAI = axios.create({
-    baseURL: 'https://api.openai.com',
-    headers: {
-        'Authorization': `Bearer ${process.env.OPENAI_API_KEY}`,
-        'Content-Type': 'application/json'
-    }
-});
-
 // TODO OpenAI communicaiton should go here
 // TODO Send a post request to https://api.openai.com/v1/chat/completions
 // Make sure you have Content-Type = application/json as the header
+
+app.get('/openAIEndpoint', async (req, res) => {
+
+    const imageUrlAdaLovelace = "https://upload.wikimedia.org/wikipedia/commons/f/f5/Ada_lovelace_20k_54i.png";
+    const arcteryxColorsString = "Green, Tatsu, Blue, Black, Light Vitality, Orange, Grey, Edziza, Void, Stone Wash, Chloris, Solitude II, Graphite, Solitude, Forage, Black Sapphire, Lampyre, Pytheas, Smoke Bluff, Natural, Daybreak, Vitality, Canvas, Iola, Purple, Euphoria, Red, Heritage, Blue Tetra, Dark Stone Wash, Dark Magic, Bordeaux, Boxcar, Yukon, Yellow, Brown, Arabica, Sand Flax, Black Heather, Cloud Heather."
+    const gpt4VisionPrompt = "Among the following colors, which ones match the complexion, skin tone, contrast, eyebrow color, hair color etc. of the person in the picture the most? Please disregard the details about the background or the clothing items. Please list 3 colors, and make sure that they are different. After you list the three colours, start a new paragraph. In the new paragraph, explain why those three colors were picked in a very succinct way. The colors to pick from are: " + arcteryxColorsString;
+
+    const requestBody = {
+        "model": "gpt-4-vision-preview",
+        "messages": [
+            {
+                "role": "user",
+                "content": [
+                    {
+                        "type": "text",
+                        "text": gpt4VisionPrompt
+                    },
+                    {
+                        "type": "image_url",
+                        "image_url": {
+                            "url": imageUrlAdaLovelace
+                        }
+                    }
+                ]
+            }
+        ],
+        "temperature": 0.7
+    };
+
+    const headers = {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${process.env.OPENAI_API_KEY}`,
+    };
+
+    try {
+        const response = await axios.post(GPT4VisionUrl, requestBody, { headers });
+        const responseObject = response.data;
+        const GPTResponse = JSON.stringify(responseObject.choices[0].message.content);
+        res.send(GPTResponse);
+    } catch (error) {
+        // Handle any errors that occur during the API request
+        console.error('Error calling OpenAI API:', error.response ? error.response.data : error.message);
+        res.status(500).send('Internal Server Error');
+    }
+});
+
 
 // Endpoint to serve the products data
 app.get('/products', (req, res) => {
