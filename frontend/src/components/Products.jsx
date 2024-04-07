@@ -1,6 +1,6 @@
-import Product from "@/components/Product";
+import Product from "../components/Product";
 import React, { useEffect, useState } from 'react';
-import Filter from "@/components/ProductFilter";
+import Filter from "../components/ProductFilter";
 
 export default function Products() {
     const [products, setProducts] = useState([]);
