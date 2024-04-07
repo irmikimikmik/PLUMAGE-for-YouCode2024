@@ -81,9 +81,6 @@ app.get('/latestColorRecommendation', async (req, res) => {
 });
 
 let productRecommendations = [];
-const extractMainImageUrl = (colorString) => {
-    return colorString.split(':::')[3];
-};
 
 app.get('/productRecommendationsBasedOnColor', async (req, res) => {
     try {
@@ -95,6 +92,7 @@ app.get('/productRecommendationsBasedOnColor', async (req, res) => {
             throw new Error('Invalid product data structure');
         }
 
+
         latestRandomColors.forEach(color => {
             // Iterate over each product
             productData.response.docs.forEach(product => {
@@ -104,14 +102,23 @@ app.get('/productRecommendationsBasedOnColor', async (req, res) => {
                 });
                 // If color exists, push the analytics_name into the recommendations
                 if (colorExists) {
-                    product.colour_images_map_ca.push(extractMainImageUrl(product.colour_images_map_ca[0]));
                     productRecommendations.push(product);
                 }
             });
         });
 
-        // Remove duplicates
-        let uniqueProductRecommendations = [...new Set(productRecommendations)];
+        // Remove duplicates TODO
+        let uniqueProductRecommendations = [];
+
+        productRecommendations.forEach(product => {
+            // Check if there is already a product with the same analytics_name in the uniqueProductRecommendations
+            const isExisting = uniqueProductRecommendations.some(uniqueProduct => uniqueProduct.analytics_name === product.analytics_name);
+
+            // If the product does not exist, add it to the uniqueProductRecommendations
+            if (!isExisting) {
+                uniqueProductRecommendations.push(product);
+            }
+        });
 
         // Return the unique recommendations
         res.json(uniqueProductRecommendations);
