@@ -1,6 +1,6 @@
 import Product from "@/components/Product";
 import React, { useEffect, useState } from 'react';
-import Filter from "@/components/ProductFilter"
+import Filter from "@/components/ProductFilter";
 
 export default function Products() {
     const [products, setProducts] = useState([]);
@@ -13,6 +13,12 @@ export default function Products() {
         "Purple", "Euphoria", "Red", "Heritage", "Blue Tetra", "Dark Stone Wash", "Dark Magic",
         "Bordeaux", "Boxcar", "Yukon", "Yellow", "Brown", "Arabica", "Sand Flax", "Black Heather", "Cloud Heather"
     ];
+
+    const handleSortChange = (event) => {
+        const sortValue = event.target.value;
+        // Implement sorting logic based on sortValue
+        console.log(sortValue); // Placeholder: implement actual sorting
+    };
 
     useEffect(() => {
         async function fetchProductData() {
@@ -45,9 +51,10 @@ export default function Products() {
     }, []);
 
     return (
-        <div className="pt-10 space-y-6">
+        <div className="w-full pt-11">
             <h2>Recommended For You</h2>
-            <Filter />
+            <Filter onSortChange={handleSortChange} />
+            <hr />
             <div className="grid grid-cols-3 gap-0 m-auto">
                 {products.map((product) => (
                     <Product key={product.analytics_name} product={product} />
