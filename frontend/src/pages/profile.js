@@ -10,53 +10,29 @@ let GPTreasoning;
 let GPTcolors;
 
 function fetchChatPT4VisionOutput() {
-  fetch("http://localhost:3001/openAIEndpoint")
-    .then((response) => {
+  fetch('http://localhost:3001/openAIEndpoint')
+    .then(response => {
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
       return response.json();
     })
-    .then((data) => {
+    .then(data => {
       console.log("response: " + JSON.stringify(data));
       // Handle the successful response data here
       GPTcolors = data.colors;
       GPTreasoning = data.reasoning;
-      const GPTcolorsString = arrayToString(data.colors);
+      GPTcolorsString = arrayToString(data.colors);
 
       console.log("GPTcolors: " + GPTcolors);
       console.log("GPTreasoning: " + GPTreasoning);
       console.log("GPTcolorsString: " + GPTcolorsString);
     })
-    .catch((error) => {
-      console.error("Fetching ChatGPT-4 Vision output failed:", error);
+    .catch(error => {
+      console.error('Fetching ChatGPT-4 Vision output failed:', error);
       // Handle the error case here
       // You might want to set an error state or rethrow the error
     });
-=======
-    fetch('http://localhost:3001/openAIEndpoint')
-        .then(response => {
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            return response.json();
-        })
-        .then(data => {
-            console.log("response: " + JSON.stringify(data));
-            // Handle the successful response data here
-            GPTcolors = data.colors;
-            GPTreasoning = data.reasoning;
-            GPTcolorsString = arrayToString(data.colors);
-            
-            console.log("GPTcolors: " + GPTcolors);
-            console.log("GPTreasoning: " + GPTreasoning);
-            console.log("GPTcolorsString: " + GPTcolorsString);
-        })
-        .catch(error => {
-            console.error('Fetching ChatGPT-4 Vision output failed:', error);
-            // Handle the error case here
-            // You might want to set an error state or rethrow the error
-        });
 }
 
 function arrayToString(array) {
@@ -168,30 +144,6 @@ export default function Profile() {
                   </clipPath>
                 </defs>
               </svg>
-=======
-    return (
-        <div className="profile-container">
-            <AppNavBar/>
-          <h1 className="column-header">Your Profile</h1>
-          <div className="profile-grid">
-            {/* Left Column */}
-            <div className="left-column">
-              <h2 className="column-header">Personal Information</h2>
-              <ul className="details-list">
-                <li className="details-item">Name: {userData[0].username}</li>
-                <li className="details-item">Email: {userData[0].email}</li>
-                <li className="details-item">Location: Vancouver, Canada</li>
-                <li className="details-item">Interests: Hiking, Rock climbing</li>
-              </ul>
-              <h2 className="column-header">My Style</h2>
-              <div className="style-box"> { GPTcolorsString } </div>
-              <div className="style-box"> { GPTreasoning } </div>
-            </div>
-            <div className="address-box place-content-center px-4">
-              <div className="flex space-x-4">
-                <p className="text-sm">Jin Lee</p>
-                <p className="text-sm text-gray-300">*1234</p>
-              </div>
             </div>
           </div>
         </div>
